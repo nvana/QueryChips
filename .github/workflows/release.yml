@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write   # create the GitHub Release
+  id-token: write   # npm provenance (OIDC)
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -22,26 +26,21 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Run tests
-      run: npm run test
-
     - name: Run linting
       run: npm run lint
+
+    - name: Run tests
+      run: npm run test
 
     - name: Build project
       run: npm run build
 
     - name: Publish to npm
-      run: npm publish
+      run: npm publish --provenance --access public --ignore-scripts
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    - name: Create Release
-      uses: actions/create-release@v1
+    - name: Create GitHub Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false 
+      run: gh release create "${GITHUB_REF_NAME}" --title "Release ${GITHUB_REF_NAME}" --generate-notes

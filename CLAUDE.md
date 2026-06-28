@@ -10,7 +10,7 @@ QueryChips is a framework-agnostic TypeScript library for building filter UI com
 
 ```bash
 npm run dev          # Rollup watch mode
-npm run build        # Clean + rollup (UMD + ESM bundles)
+npm run build        # Clean + rollup (UMD + ESM bundles) + build:css
 npm test             # Jest (jsdom)
 npm test -- --testPathPattern=querychips.test.ts  # Single test file
 npm run test:coverage
@@ -39,7 +39,7 @@ npm run format       # Prettier
 
 ## Build Output
 
-Rollup produces `dist/querychips.js` (UMD), `dist/querychips.mjs` (ESM), `dist/querychips.d.ts`, and `dist/styles.css`.
+Rollup produces `dist/querychips.js` (UMD), `dist/querychips.mjs` (ESM), and `dist/querychips.d.ts`. The `build:css` step (`scripts/build-css.js`) then writes `dist/styles.css` by `require`-ing the `STYLES` constant out of the built UMD bundle — so edit styling in `src/styles.ts`, never in `dist/styles.css` (it is regenerated on every build and depends on the rollup bundle existing first).
 
 ## Testing
 
