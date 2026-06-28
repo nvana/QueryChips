@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QueryChips Vanilla JavaScript Example</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        border: 1px solid #e9ecef;
+      }
+
+      .title {
+        font-size: 2.8rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #6c757d;
+        margin-bottom: 20px;
+      }
+
+      .example-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 35px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .example-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      }
+
+      .example-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .icon {
+        width: 32px;
+        height: 32px;
+        background-color: #667eea;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .filter-container {
+        margin-bottom: 25px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        transition: border-color 0.2s ease;
+      }
+
+      .filter-container:focus-within {
+        border-color: #667eea;
+      }
+
+      .results-section {
+        margin-top: 25px;
+      }
+
+      .results-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: 1px solid #e9ecef;
+      }
+
+      .table th {
+        background-color: #f8f9fa;
+        padding: 15px 10px;
+        border-bottom: 2px solid #dee2e6;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #495057;
+      }
+
+      .table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #e9ecef;
+        color: #495057;
+        font-size: 0.85rem;
+      }
+
+      .table tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .badge-active {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+
+      .badge-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .badge-remote {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .badge-office {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .badge-high {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+
+      .badge-medium {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .badge-low {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .stats {
+        margin-top: 12px;
+        font-size: 0.8rem;
+        color: #6c757d;
+        text-align: center;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+      }
+
+      .description {
+        color: #6c757d;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .feature-item {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        color: #495057;
+      }
+
+      .query-output {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        color: #495057;
+        white-space: pre-wrap;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid #e9ecef;
+        margin-bottom: 20px;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: #6c757d;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+      }
+
+      .tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+      }
+
+      .tab:hover {
+        color: #495057;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .notice {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        color: #856404;
+        font-size: 0.9rem;
+      }
+
+      .notice strong {
+        color: #6c5ce7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">QueryChips Vanilla JavaScript Examples</h1>
+        <p class="subtitle">
+          Explore different use cases and configurations of QueryChips in vanilla JavaScript applications. 
+          Each example demonstrates various features like field inference, query generation, and advanced filtering.
+        </p>
+        <div class="notice">
+          <strong>Note:</strong> This example works by opening the HTML file directly in your browser. 
+          No server required! Just double-click the HTML file to get started.
+        </div>
+      </div>
+
+      <!-- Employee Management Example -->
+      <div class="example-card">
+        <div class="example-title">
+          <div class="icon">👥</div>
+          Employee Management System
+        </div>
+        <p class="description">
+          Filter employees by department, status, experience level, location, and more. 
+          This example shows basic filtering with field inference and query generation.
+        </p>
+        <div class="filter-container" id="employee-filter"></div>
+        <div class="results-section">
+          <div class="results-title">
+            📊 Results (<span id="employee-count">10</span> employees)
+          </div>
+          <table class="table" id="employee-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Experience</th>
+                <th>Location</th>
+                <th>Remote</th>
+                <th>Salary</th>
+              </tr>
+            </thead>
+            <tbody id="employee-tbody"></tbody>
+          </table>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="elasticsearch">Elasticsearch</button>
+          <button class="tab" data-tab="sql">SQL</button>
+          <button class="tab" data-tab="mongodb">MongoDB</button>
+          <button class="tab" data-tab="graphql">GraphQL</button>
+        </div>
+        <div class="tab-content active" id="elasticsearch-content">
+          <div class="query-output" id="employee-elasticsearch"></div>
+        </div>
+        <div class="tab-content" id="sql-content">
+          <div class="query-output" id="employee-sql"></div>
+        </div>
+        <div class="tab-content" id="mongodb-content">
+          <div class="query-output" id="employee-mongodb"></div>
+        </div>
+        <div class="tab-content" id="graphql-content">
+          <div class="query-output" id="employee-graphql"></div>
+        </div>
+      </div>
+
+
+
+      <!-- Smart Inference Example -->
+      <div class="example-card">
+        <div class="example-title">
+          <div class="icon">🧠</div>
+          Smart Field Inference
+        </div>
+        <p class="description">
+          This example demonstrates automatic field inference from data. 
+          QueryChips automatically detects field types and creates appropriate filters without manual configuration.
+        </p>
+        <div class="filter-container" id="inference-filter"></div>
+        <div class="results-section">
+          <div class="results-title">
+            🎯 Results (<span id="inference-count">10</span> items)
+          </div>
+          <table class="table" id="inference-table">
+            <thead>
+              <tr>
+                <th>Color</th>
+                <th>Shape</th>
+                <th>Size</th>
+                <th>Material</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <th>In Stock</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody id="inference-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Default Query Example -->
+      <div class="example-card">
+        <div class="example-title">
+          <div class="icon">🚀</div>
+          Default Query Examples
+        </div>
+        <p class="description">
+          Demonstrates how to pre-populate QueryChips with default filters using the defaultQuery option. 
+          Shows both simple format (field: value) and advanced format with complex conditions.
+        </p>
+        
+        <!-- Simple Default Query -->
+        <div class="filter-container" style="margin-bottom: 20px;">
+          <h4 style="margin-bottom: 15px; color: #2c3e50; font-size: 1.1rem;">Simple Default Query</h4>
+          <p style="margin-bottom: 15px; font-size: 0.9rem; color: #6c757d;">
+            Pre-filters: department = "Engineering" AND remote = true
+          </p>
+          <div id="simple-default-filter"></div>
+        </div>
+        <div class="results-section">
+          <div class="results-title">
+            📊 Results (<span id="simple-default-count">0</span> employees)
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Experience</th>
+                <th>Location</th>
+                <th>Remote</th>
+                <th>Salary</th>
+              </tr>
+            </thead>
+            <tbody id="simple-default-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Advanced Default Query -->
+        <div class="filter-container">
+          <h4 style="margin-bottom: 15px; color: #2c3e50; font-size: 1.1rem;">Advanced Default Query</h4>
+          <p style="margin-bottom: 15px; font-size: 0.9rem; color: #6c757d;">
+            Pre-filters: (department = "Engineering" OR department = "Design") AND salary &gt; 80000 AND status = "Active"
+          </p>
+          <div id="advanced-default-filter"></div>
+        </div>
+        <div class="results-section">
+          <div class="results-title">
+            📊 Results (<span id="advanced-default-count">0</span> employees)
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Experience</th>
+                <th>Location</th>
+                <th>Remote</th>
+                <th>Salary</th>
+              </tr>
+            </thead>
+            <tbody id="advanced-default-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load QueryChips from local build -->
+    <script src="../../dist/querychips.js"></script>
+    
+    <!-- Main application script -->
+    <script src="app.js"></script>
+  </body>
+</html> 

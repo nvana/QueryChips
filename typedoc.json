@@ -1,0 +1,20 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "exclude": ["**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "theme": "default",
+  "name": "QueryChips Documentation",
+  "readme": "README.md",
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Types", "Utilities", "*"],
+  "sort": ["source-order"],
+  "searchInComments": true,
+  "validation": {
+    "invalidLink": true,
+    "notExported": true
+  }
+} 

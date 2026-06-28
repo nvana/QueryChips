@@ -1,0 +1,58 @@
+# Source files
+src/
+*.ts
+*.tsx
+
+# Development files
+.github/
+.cursorrules
+.eslintrc.js
+jest.config.js
+rollup.config.js
+tsconfig.json
+
+# Documentation
+CONTRIBUTING.md
+SECURITY.md
+CHANGELOG.md
+
+# Demo files
+demo/
+
+# Test files
+__tests__/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+coverage/
+
+# Development dependencies
+node_modules/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build cache
+.cache/
+.parcel-cache/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local 

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueryChips DOM Manager Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+
+        .demo-section h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 10px;
+        }
+
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #005a9e;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .demo-element {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .demo-element.animated {
+            border-color: #007acc;
+            background: #e3f2fd;
+        }
+
+        .demo-element.focused {
+            border-color: #4caf50;
+            background: #e8f5e8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #007acc;
+        }
+
+        .stat-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007acc;
+        }
+
+        .log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>QueryChips DOM Manager Demo</h1>
+    <p>This example demonstrates the optimized and reactive DOM management capabilities of QueryChips.</p>
+
+    <div class="container">
+        <h2>DOM Manager Statistics</h2>
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <h4>Event Listeners</h4>
+                <div class="stat-value" id="event-listeners">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Observers</h4>
+                <div class="stat-value" id="observers">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Animations</h4>
+                <div class="stat-value" id="animations">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Pending Updates</h4>
+                <div class="stat-value" id="pending-updates">0</div>
+            </div>
+            <div class="stat-card">
+                <h4>Cached Elements</h4>
+                <div class="stat-value" id="cached-elements">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h3>Element Creation & Updates</h3>
+        <div class="input-group">
+            <label for="element-text">Element Text:</label>
+            <input type="text" id="element-text" value="Dynamic Element" placeholder="Enter text for the element">
+        </div>
+        <div class="input-group">
+            <label for="element-class">CSS Class:</label>
+            <input type="text" id="element-class" value="demo-element" placeholder="Enter CSS class">
+        </div>
+        <div class="color-picker">
+            <label>Background Color:</label>
+            <input type="color" id="bg-color" value="#f9f9f9">
+        </div>
+        <button onclick="createElement()">Create Element</button>
+        <button onclick="updateElement()">Update Element</button>
+        <button onclick="batchUpdate()">Batch Update</button>
+        <div id="element-container"></div>
+    </div>
+
+    <div class="demo-section">
+        <h3>Event Handling</h3>
+        <div class="demo-element" id="event-demo">
+            Click me to test event handling
+        </div>
+        <button onclick="addEventListeners()">Add Event Listeners</button>
+        <button onclick="removeEventListeners()">Remove Event Listeners</button>
+        <div class="log" id="event-log"></div>
+    </div>
+
+    <div class="demo-section">
+        <h3>DOM Observation</h3>
+        <div class="demo-element" id="observer-demo">
+            <p>This element is being observed for changes</p>
+        </div>
+        <button onclick="startObserving()">Start Observing</button>
+        <button onclick="stopObserving()">Stop Observing</button>
+        <button onclick="modifyObservedElement()">Modify Element</button>
+        <div class="log" id="observer-log"></div>
+    </div>
+
+    <div class="demo-section">
+        <h3>Animations</h3>
+        <div class="demo-element" id="animation-demo">
+            Animation Demo Element
+        </div>
+        <button onclick="animateElement()">Animate</button>
+        <button onclick="cancelAnimation()">Cancel Animation</button>
+        <div class="log" id="animation-log"></div>
+    </div>
+
+    <div class="demo-section">
+        <h3>Debouncing & Throttling</h3>
+        <div class="input-group">
+            <label for="debounce-input">Type here to test debouncing:</label>
+            <input type="text" id="debounce-input" placeholder="Type quickly to see debouncing in action">
+        </div>
+        <div class="input-group">
+            <label for="throttle-input">Type here to test throttling:</label>
+            <input type="text" id="throttle-input" placeholder="Type quickly to see throttling in action">
+        </div>
+        <div class="log" id="debounce-log"></div>
+    </div>
+
+    <div class="demo-section">
+        <h3>Element Utilities</h3>
+        <div class="demo-element" id="utility-demo" style="width: 200px; height: 100px;">
+            Utility Demo Element
+        </div>
+        <button onclick="measureElement()">Measure Element</button>
+        <button onclick="checkViewport()">Check Viewport</button>
+        <button onclick="focusElement()">Focus Element</button>
+        <button onclick="blurElement()">Blur Element</button>
+        <div class="log" id="utility-log"></div>
+    </div>
+
+    <script type="module">
+        import { QueryChipsDOMManager } from '../../dist/querychips.mjs';
+
+        // Initialize DOM Manager
+        const domManager = new QueryChipsDOMManager();
+        let currentElement = null;
+        let eventIds = [];
+        let observerId = null;
+        let animationId = null;
+
+        // Update statistics
+        function updateStats() {
+            const stats = domManager.getStats();
+            document.getElementById('event-listeners').textContent = stats.eventListeners;
+            document.getElementById('observers').textContent = stats.observers;
+            document.getElementById('animations').textContent = stats.animations;
+            document.getElementById('pending-updates').textContent = stats.pendingUpdates;
+            document.getElementById('cached-elements').textContent = stats.cachedElements;
+        }
+
+        // Log function
+        function log(message, logId = 'event-log') {
+            const logElement = document.getElementById(logId);
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        // Element Creation & Updates
+        window.createElement = function() {
+            const text = document.getElementById('element-text').value;
+            const className = document.getElementById('element-class').value;
+            const bgColor = document.getElementById('bg-color').value;
+
+            currentElement = domManager.createElement('div', {
+                className: className,
+                textContent: text,
+                styles: {
+                    'background-color': bgColor
+                }
+            });
+
+            document.getElementById('element-container').appendChild(currentElement);
+            log(`Created element with text: "${text}"`, 'event-log');
+            updateStats();
+        };
+
+        window.updateElement = function() {
+            if (!currentElement) {
+                log('No element to update. Create one first.', 'event-log');
+                return;
+            }
+
+            const text = document.getElementById('element-text').value;
+            const bgColor = document.getElementById('bg-color').value;
+
+            domManager.updateElement({
+                element: currentElement,
+                updates: {
+                    textContent: text
+                },
+                styles: {
+                    'background-color': bgColor
+                }
+            });
+
+            log(`Updated element with text: "${text}"`, 'event-log');
+            updateStats();
+        };
+
+        window.batchUpdate = function() {
+            if (!currentElement) {
+                log('No element to update. Create one first.', 'event-log');
+                return;
+            }
+
+            const updates = [
+                {
+                    element: currentElement,
+                    updates: { textContent: 'Batch Update 1' },
+                    classes: { add: ['batch-1'] }
+                },
+                {
+                    element: currentElement,
+                    updates: { textContent: 'Batch Update 2' },
+                    classes: { add: ['batch-2'] }
+                },
+                {
+                    element: currentElement,
+                    updates: { textContent: 'Final Batch Update' },
+                    classes: { add: ['final'] }
+                }
+            ];
+
+            domManager.batchUpdate(updates);
+            log('Applied batch updates', 'event-log');
+            updateStats();
+        };
+
+        // Event Handling
+        window.addEventListeners = function() {
+            const element = document.getElementById('event-demo');
+            
+            const clickId = domManager.addEventListener(element, {
+                type: 'click',
+                handler: () => log('Element clicked!', 'event-log')
+            });
+
+            const mouseoverId = domManager.addEventListener(element, {
+                type: 'mouseover',
+                handler: () => {
+                    element.classList.add('focused');
+                    log('Mouse over element', 'event-log');
+                }
+            });
+
+            const mouseoutId = domManager.addEventListener(element, {
+                type: 'mouseout',
+                handler: () => {
+                    element.classList.remove('focused');
+                    log('Mouse out of element', 'event-log');
+                }
+            });
+
+            eventIds = [clickId, mouseoverId, mouseoutId];
+            log('Added event listeners', 'event-log');
+            updateStats();
+        };
+
+        window.removeEventListeners = function() {
+            eventIds.forEach(id => {
+                domManager.removeEventListener(id);
+            });
+            eventIds = [];
+            log('Removed event listeners', 'event-log');
+            updateStats();
+        };
+
+        // DOM Observation
+        window.startObserving = function() {
+            const element = document.getElementById('observer-demo');
+            
+            observerId = domManager.observeDOM({
+                target: element,
+                callback: (mutations) => {
+                    mutations.forEach(mutation => {
+                        log(`DOM mutation: ${mutation.type}`, 'observer-log');
+                    });
+                }
+            });
+
+            log('Started observing DOM changes', 'observer-log');
+            updateStats();
+        };
+
+        window.stopObserving = function() {
+            if (observerId) {
+                domManager.disconnectObserver(observerId);
+                observerId = null;
+                log('Stopped observing DOM changes', 'observer-log');
+                updateStats();
+            }
+        };
+
+        window.modifyObservedElement = function() {
+            const element = document.getElementById('observer-demo');
+            element.innerHTML += '<p>New content added at ' + new Date().toLocaleTimeString() + '</p>';
+        };
+
+        // Animations
+        window.animateElement = function() {
+            const element = document.getElementById('animation-demo');
+            
+            animationId = domManager.animateElement({
+                element,
+                keyframes: [
+                    { transform: 'scale(1)', opacity: 1 },
+                    { transform: 'scale(1.2)', opacity: 0.8 },
+                    { transform: 'scale(1)', opacity: 1 }
+                ],
+                options: { duration: 1000, easing: 'ease-in-out' },
+                onComplete: () => {
+                    log('Animation completed', 'animation-log');
+                    animationId = null;
+                    updateStats();
+                }
+            });
+
+            element.classList.add('animated');
+            log('Started animation', 'animation-log');
+            updateStats();
+        };
+
+        window.cancelAnimation = function() {
+            if (animationId) {
+                domManager.cancelAnimation(animationId);
+                animationId = null;
+                document.getElementById('animation-demo').classList.remove('animated');
+                log('Animation cancelled', 'animation-log');
+                updateStats();
+            }
+        };
+
+        // Debouncing & Throttling
+        const debounceInput = document.getElementById('debounce-input');
+        const throttleInput = document.getElementById('throttle-input');
+
+        const debouncedLog = domManager.debounce('debounce-input', (value) => {
+            log(`Debounced input: "${value}"`, 'debounce-log');
+        }, 500);
+
+        const throttledLog = domManager.throttle('throttle-input', (value) => {
+            log(`Throttled input: "${value}"`, 'debounce-log');
+        }, 300);
+
+        debounceInput.addEventListener('input', (e) => {
+            debouncedLog(e.target.value);
+        });
+
+        throttleInput.addEventListener('input', (e) => {
+            throttledLog(e.target.value);
+        });
+
+        // Element Utilities
+        window.measureElement = function() {
+            const element = document.getElementById('utility-demo');
+            const measurements = domManager.measureElement(element);
+            
+            log(`Element measurements:`, 'utility-log');
+            log(`  Width: ${measurements.offsetWidth}px`, 'utility-log');
+            log(`  Height: ${measurements.offsetHeight}px`, 'utility-log');
+            log(`  Client Width: ${measurements.clientWidth}px`, 'utility-log');
+            log(`  Client Height: ${measurements.clientHeight}px`, 'utility-log');
+        };
+
+        window.checkViewport = function() {
+            const element = document.getElementById('utility-demo');
+            const inViewport = domManager.isInViewport(element);
+            log(`Element in viewport: ${inViewport}`, 'utility-log');
+        };
+
+        window.focusElement = function() {
+            const element = document.getElementById('utility-demo');
+            domManager.focusElement(element, { focusVisible: true });
+            log('Element focused', 'utility-log');
+        };
+
+        window.blurElement = function() {
+            const element = document.getElementById('utility-demo');
+            domManager.blurElement(element);
+            log('Element blurred', 'utility-log');
+        };
+
+        // Initialize
+        updateStats();
+        log('DOM Manager initialized', 'event-log');
+    </script>
+</body>
+</html> 
