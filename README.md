@@ -1,47 +1,79 @@
+<div align="center">
+
 # QueryChips
 
-A framework-agnostic TypeScript library for building filter UI components. Converts user interactions into Elasticsearch, SQL, MongoDB, and GraphQL queries. Published on npm as [`querychips`](https://www.npmjs.com/package/querychips).
+### The framework-agnostic filter UI & query builder for TypeScript
 
-[![npm version](https://badge.fury.io/js/querychips.svg)](https://badge.fury.io/js/querychips)
+Build beautiful, accessible, tag-based filter components in **React**, **Vue**, or **vanilla JavaScript** — and turn every user interaction into ready-to-run **Elasticsearch**, **SQL**, **MongoDB**, and **GraphQL** queries.
+
+[![npm version](https://img.shields.io/npm/v/querychips.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/querychips)
+[![npm downloads](https://img.shields.io/npm/dm/querychips.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/querychips)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/querychips?label=gzip&color=success)](https://bundlephobia.com/package/querychips)
+[![zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://www.npmjs.com/package/querychips?activeTab=dependencies)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178c6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 
 <p align="center">
-  <img src="screenshot.png" alt="QueryChips - Filter UI component with tag-based filters and results table" width="780">
+  <img src="screenshot.png" alt="QueryChips filter UI component — tag-based query builder with live results table for React, Vue and vanilla JavaScript" width="780">
 </p>
 
-## Features
+[**Installation**](#-installation) · [**Quick Start**](#-quick-start) · [**Query Generation**](#-query-generation) · [**Theming**](#-theming) · [**API**](#-api) · [**Examples**](./examples)
 
-- **Framework agnostic** -- works with React, Vue, or vanilla JavaScript
-- **Smart field inference** -- auto-detects field types from your data
-- **Keyboard navigation** -- arrow keys, Enter, Escape, Tab, Backspace
-- **Accessibility** -- ARIA labels, screen reader support, focus management
-- **Advanced filtering** -- nested groups with AND/OR logic via parentheses
-- **Query generation** -- Elasticsearch, SQL, MongoDB, GraphQL output
-- **12 built-in themes** -- Material, Bootstrap, Tailwind, Ant Design, and more
-- **16 languages** -- built-in i18n with custom translation support
-- **Full TypeScript** -- exported types for all interfaces
+</div>
 
-## Installation
+---
+
+## Why QueryChips?
+
+Building a filter bar that feels as good as the ones in Linear, GitHub, or Notion usually means weeks of fiddling with dropdowns, keyboard handling, focus traps, accessibility, and query serialization. **QueryChips gives you all of that in a single, zero-dependency package** — and it works with whatever stack you're already on.
+
+- 🧩 **Truly framework-agnostic** — one core, first-class wrappers for **React** and **Vue**, and a clean API for **vanilla JS** or any other framework.
+- 🪄 **Smart field inference** — point it at your data and it auto-detects field types (string, number, boolean, enum, date) and the right operators for each.
+- 🔍 **Query builder built in** — every filter compiles to **Elasticsearch DSL, parameterized SQL, MongoDB filters, and GraphQL** — no manual serialization.
+- ⌨️ **Keyboard-first UX** — full arrow-key / Enter / Escape / Tab / Backspace navigation, just like the apps your users love.
+- ♿ **Accessible by default** — ARIA roles, screen-reader support, and managed focus out of the box.
+- 🧠 **Advanced boolean logic** — nested groups with `AND` / `OR` and parentheses for complex queries.
+- 🎨 **12 themes + full CSS-variable theming** — Material, Bootstrap, Tailwind, Ant Design, MUI, Chakra, and more.
+- 🌍 **16 languages** — built-in i18n with custom translation support.
+- 📦 **Zero runtime dependencies & fully typed** — tiny footprint, exported types for everything.
+
+> **Keywords:** filter UI · query builder · search component · faceted search · Elasticsearch query builder · SQL query builder · MongoDB filter · GraphQL filter · React filter component · Vue filter component · TypeScript filter library
+
+## ✨ Features
+
+| | |
+|---|---|
+| **Framework agnostic** | React, Vue, vanilla JS, or any framework |
+| **Smart field inference** | Auto-detects field types from your data |
+| **Query generation** | Elasticsearch, SQL, MongoDB & GraphQL output |
+| **Advanced filtering** | Nested groups with `AND` / `OR` logic |
+| **Keyboard navigation** | Arrows, Enter, Escape, Tab, Backspace |
+| **Accessibility** | ARIA labels, screen readers, focus management |
+| **12 built-in themes** | Plus full custom theming via CSS variables |
+| **16 languages** | i18n with custom translation support |
+| **100% TypeScript** | Exported types for every interface |
+| **Zero dependencies** | No runtime deps, tree-shakeable ESM + UMD |
+
+## 📦 Installation
 
 ```bash
 npm install querychips
 ```
 
-Import styles in your app:
+Import the styles once in your app:
 
 ```js
 import 'querychips/styles';
 ```
 
-Or via CDN:
+Or drop it in via CDN — no build step required:
 
 ```html
-<script src="https://unpkg.com/querychips@latest/dist/querychips.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/querychips@latest/dist/styles.css">
+<script src="https://unpkg.com/querychips@latest/dist/querychips.js"></script>
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Vanilla JavaScript
 
@@ -95,7 +127,9 @@ const handleChange = (filteredData, state) => {
 </script>
 ```
 
-## Configuration
+> 💡 **Want to see it live?** Runnable React, Vue, vanilla, and Elasticsearch demos live in the [`examples/`](./examples) folder.
+
+## ⚙️ Configuration
 
 ### Constructor Options
 
@@ -138,11 +172,11 @@ interface Field {
 | `enum` | `=` `!=` |
 | `date` | `=` `!=` `>` `<` `>=` `<=` `between` `not_between` |
 
-## Filtering
+## 🔎 Filtering
 
 ### Simple Filters
 
-The UI guides users through a step-by-step flow: **field** -> **operator** -> **value**. After completing a filter, a **logical operator** step (AND/OR) connects it to the next filter.
+The UI guides users through a step-by-step flow: **field** → **operator** → **value**. After completing a filter, a **logical operator** step (AND/OR) connects it to the next filter.
 
 ```ts
 // Programmatic filter
@@ -175,9 +209,9 @@ const queryChips = new QueryChips({
 });
 ```
 
-## Query Generation
+## 🗄️ Query Generation
 
-Enable query output by setting `queryLanguages` and listening via `onQueryChange`:
+Turn user-built filters into production-ready queries for your backend. Enable output by setting `queryLanguages` and listening via `onQueryChange`:
 
 ```ts
 const queryChips = new QueryChips({
@@ -192,7 +226,9 @@ const queryChips = new QueryChips({
 });
 ```
 
-## Theming
+SQL output is **parameterized** (safe against injection), and every format mirrors the exact boolean structure the user built — including nested groups.
+
+## 🎨 Theming
 
 ### Pre-built Themes
 
@@ -247,7 +283,7 @@ Theme modes: `'default'` (built-in styles), `'custom'` (CSS variables), `'none'`
 
 </details>
 
-## Internationalization
+## 🌍 Internationalization
 
 ### Built-in Languages
 
@@ -288,7 +324,7 @@ const queryChips = new QueryChips({
 });
 ```
 
-## API
+## 📚 API
 
 ### Methods
 
@@ -319,7 +355,7 @@ onQueryChange?: (queries: {
 }, state: QueryChipsState) => void;
 ```
 
-## TypeScript
+## 🟦 TypeScript
 
 All types are exported from the main package:
 
@@ -343,6 +379,12 @@ import type {
 } from 'querychips';
 ```
 
-## License
+## 🤝 Contributing
 
-MIT
+Contributions, issues, and feature requests are welcome! Check out the [contributing guide](./CONTRIBUTING.md) and the [open issues](https://github.com/nvana/querychips/issues).
+
+If QueryChips saves you time, please consider giving it a ⭐ on [GitHub](https://github.com/nvana/querychips) — it really helps others discover the project.
+
+## 📄 License
+
+[MIT](./LICENSE) © [nvana](https://github.com/nvana)
