@@ -1,6 +1,6 @@
 {
   "name": "querychips",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern, framework-agnostic JavaScript/TypeScript library for building intelligent filter UI components with smart input handling, keyboard navigation, and comprehensive accessibility features",
   "main": "dist/querychips.js",
   "module": "dist/querychips.mjs",
@@ -99,8 +99,12 @@
     "react-dom": ">=16.8.0"
   },
   "peerDependenciesMeta": {
-    "react": { "optional": true },
-    "react-dom": { "optional": true }
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
