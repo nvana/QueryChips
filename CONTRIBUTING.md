@@ -1,10 +1,9 @@
 # Contributing to QueryChips
 
-Thank you for your interest in contributing to QueryChips! This document provides guidelines and information for contributors.
+Thanks for your interest in contributing. This guide covers how to set up the project, make changes, and submit them.
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
 - [Making Changes](#making-changes)
@@ -12,41 +11,30 @@ Thank you for your interest in contributing to QueryChips! This document provide
 - [Submitting Changes](#submitting-changes)
 - [Release Process](#release-process)
 
-## Code of Conduct
-
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
-
 ## Getting Started
 
-1. Fork the repository
+1. Fork the repository.
 2. Clone your fork: `git clone https://github.com/your-username/querychips.git`
-3. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Create a branch: `git checkout -b feature/your-feature-name`
 4. Install dependencies: `npm install`
 
 ## Development Setup
 
 ### Prerequisites
 
-- Node.js 14.x or higher
-- npm 6.x or higher
+- Node.js 18 or higher
+- npm 9 or higher
 
-### Setup Commands
+### Common Commands
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development mode
-npm run dev
-
-# Run tests
-npm test
-
-# Run linting
-npm run lint
-
-# Format code
-npm run format
+npm run dev          # Rollup watch mode
+npm run build        # Build UMD + ESM bundles and the stylesheet
+npm test             # Run the test suite (Jest, jsdom)
+npm run test:coverage
+npm run lint         # ESLint over src and wrappers
+npm run type-check   # tsc --noEmit
+npm run format       # Prettier
 ```
 
 ### Project Structure
@@ -54,83 +42,58 @@ npm run format
 ```
 src/
 ├── __tests__/          # Test files
-├── index.ts           # Main entry point
-├── querychips.ts         # Core QueryChips class
-├── types.ts           # TypeScript type definitions
-├── utils.ts           # Utility functions
-├── styles.ts          # CSS styles
-├── themes.ts          # Theme system
-└── translations.ts    # Internationalization
+├── index.ts            # Public entry point and re-exports
+├── querychips.ts       # Core QueryChips class
+├── dom-manager.ts      # Batched DOM updates
+├── types.ts            # TypeScript type definitions
+├── utils.ts            # Data filtering and query generators
+├── styles.ts           # CSS injected at runtime
+├── themes.ts           # Built-in themes
+└── translations.ts     # Built-in translations
 wrappers/
-├── QueryChipsReact.tsx   # React wrapper
-└── QueryChipsVue.vue     # Vue wrapper
-examples/              # Example implementations
+├── QueryChipsReact.tsx # React wrapper
+└── QueryChipsVue.vue   # Vue wrapper
+examples/               # Runnable example apps
 ```
 
 ## Making Changes
 
 ### Code Style
 
-- Follow the existing code style and formatting
-- Use TypeScript for all new code
-- Write meaningful commit messages
-- Add JSDoc comments for public APIs
-- Follow ESLint and Prettier configurations
+- Match the existing style; ESLint and Prettier are enforced.
+- Write all new code in TypeScript and avoid `any` where a concrete type is available.
+- Add new types to `src/types.ts` and export them.
+- Add JSDoc comments for public APIs.
 
-### TypeScript Guidelines
+### Where things live
 
-- Use strict TypeScript settings
-- Avoid `any` types when possible
-- Provide proper type definitions
-- Use interfaces for object shapes
-- Export types from `types.ts`
-
-### Testing Guidelines
-
-- Write tests for new features
-- Maintain test coverage above 80%
-- Use descriptive test names
-- Test both success and error cases
-- Mock external dependencies
+- DOM mutations go through `QueryChipsDOMManager` (`src/dom-manager.ts`).
+- Query generators (Elasticsearch, SQL, MongoDB, GraphQL) live in `src/utils.ts`.
+- Edit styling in `src/styles.ts`. `dist/styles.css` is generated from the build and should never be edited by hand.
 
 ## Testing
 
-### Running Tests
+Tests live in `src/__tests__/` and run under Jest with a jsdom environment.
 
 ```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run specific test file
-npm test -- --testPathPattern=querychips.test.ts
+npm test                                           # Run all tests
+npm run test:watch                                 # Watch mode
+npm run test:coverage                              # With coverage
+npm test -- --testPathPattern=querychips.test.ts   # A single file
 ```
 
-### Test Structure
-
-- Unit tests for individual functions
-- Integration tests for component interactions
-- E2E tests for complete workflows
-- Performance tests for critical paths
+Please add tests for new features and bug fixes, and cover both success and error paths.
 
 ## Submitting Changes
 
-### Pull Request Process
+1. Make sure `npm run test:ci` passes (coverage, lint, and type-check).
+2. Add or update tests for your change.
+3. Update the documentation and `CHANGELOG.md` if the change is user-facing.
+4. Open a pull request with a clear description of what changed and why.
 
-1. Ensure your code follows the style guidelines
-2. Add tests for new functionality
-3. Update documentation if needed
-4. Update CHANGELOG.md with your changes
-5. Submit a pull request with a clear description
+### Commit Messages
 
-### Commit Message Format
-
-Use conventional commit format:
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 type(scope): description
@@ -140,66 +103,30 @@ type(scope): description
 [optional footer]
 ```
 
-Types:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes
-- `refactor`: Code refactoring
-- `test`: Test changes
-- `chore`: Build/tooling changes
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
 
 ### Pull Request Checklist
 
-- [ ] Code follows style guidelines
-- [ ] Tests pass
-- [ ] Documentation updated
-- [ ] CHANGELOG.md updated
-- [ ] No breaking changes (or documented)
-- [ ] TypeScript types are correct
-- [ ] Bundle size impact considered
+- [ ] `npm run test:ci` passes
+- [ ] Tests added or updated
+- [ ] Documentation updated where relevant
+- [ ] `CHANGELOG.md` updated for user-facing changes
+- [ ] Breaking changes are called out
 
 ## Release Process
 
-### Versioning
+This project follows [Semantic Versioning](https://semver.org/):
 
-We follow [Semantic Versioning](https://semver.org/):
+- `MAJOR` — breaking changes
+- `MINOR` — backward-compatible features
+- `PATCH` — backward-compatible fixes
 
-- `MAJOR`: Breaking changes
-- `MINOR`: New features (backward compatible)
-- `PATCH`: Bug fixes (backward compatible)
+Releases are cut from `main`:
 
-### Release Steps
-
-1. Update version in `package.json`
-2. Update `CHANGELOG.md`
-3. Create release branch
-4. Run full test suite
-5. Build and verify bundles
-6. Create GitHub release
-7. Publish to npm
-
-### Pre-release Checklist
-
-- [ ] All tests pass
-- [ ] Documentation is up to date
-- [ ] CHANGELOG.md is complete
-- [ ] Bundle sizes are reasonable
-- [ ] No security vulnerabilities
-- [ ] Examples work correctly
+1. Update the version in `package.json` and `CHANGELOG.md`.
+2. Confirm `npm run test:ci` and `npm run build` succeed.
+3. Tag the release; the CI workflow publishes to npm on tag push.
 
 ## Getting Help
 
-- Create an issue for bugs or feature requests
-- Join our community discussions
-- Check existing documentation
-- Review existing issues and PRs
-
-## Recognition
-
-Contributors will be recognized in:
-- README.md contributors section
-- Release notes
-- GitHub contributors page
-
-Thank you for contributing to QueryChips! 
+Open an issue for bugs or feature requests, and check existing issues and pull requests before starting work.

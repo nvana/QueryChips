@@ -1,7 +1,7 @@
 {
   "name": "querychips",
-  "version": "1.0.1",
-  "description": "A modern, framework-agnostic JavaScript/TypeScript library for building intelligent filter UI components with smart input handling, keyboard navigation, and comprehensive accessibility features",
+  "version": "1.0.2",
+  "description": "Framework-agnostic filter UI and query builder for TypeScript. Build tag-based filters in React, Vue, or vanilla JS and compile them to Elasticsearch, SQL, MongoDB, or GraphQL.",
   "main": "dist/querychips.js",
   "module": "dist/querychips.mjs",
   "types": "dist/querychips.d.ts",

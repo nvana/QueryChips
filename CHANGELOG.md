@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-07-08
+
+### Changed
+- Rewrote the README and contributing guide for clarity and accuracy.
+- Corrected the documented Node.js requirement to 18+ to match `package.json`.
+- Updated the npm package description.
+
 ## [1.0.0] - 2026-06-28
 
 Initial public release.

@@ -2,9 +2,9 @@
 
 # QueryChips
 
-### The framework-agnostic filter UI & query builder for TypeScript
+**A framework-agnostic filter UI and query builder for TypeScript.**
 
-Build beautiful, accessible, tag-based filter components in **React**, **Vue**, or **vanilla JavaScript** — and turn every user interaction into ready-to-run **Elasticsearch**, **SQL**, **MongoDB**, and **GraphQL** queries.
+Build tag-based filter components in React, Vue, or vanilla JavaScript, and compile the filters your users create into Elasticsearch, SQL, MongoDB, or GraphQL queries.
 
 [![npm version](https://img.shields.io/npm/v/querychips.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/querychips)
 [![npm downloads](https://img.shields.io/npm/dm/querychips.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/querychips)
@@ -14,66 +14,64 @@ Build beautiful, accessible, tag-based filter components in **React**, **Vue**, 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
-  <img src="screenshot.png" alt="QueryChips filter UI component — tag-based query builder with live results table for React, Vue and vanilla JavaScript" width="780">
+  <img src="screenshot.png" alt="QueryChips filter UI component with a live results table" width="780">
 </p>
 
-[**Installation**](#-installation) · [**Quick Start**](#-quick-start) · [**Query Generation**](#-query-generation) · [**Theming**](#-theming) · [**API**](#-api) · [**Examples**](./examples)
+[Installation](#installation) · [Quick Start](#quick-start) · [Query Generation](#query-generation) · [Theming](#theming) · [API](#api) · [Examples](./examples)
 
 </div>
 
 ---
 
-## Why QueryChips?
+## Overview
 
-Building a filter bar that feels as good as the ones in Linear, GitHub, or Notion usually means weeks of fiddling with dropdowns, keyboard handling, focus traps, accessibility, and query serialization. **QueryChips gives you all of that in a single, zero-dependency package** — and it works with whatever stack you're already on.
+A production-quality filter bar involves more than it looks: a step-by-step input flow, keyboard navigation, focus management, accessibility, and serializing the result into whatever your backend speaks. QueryChips handles those concerns in a single package with no runtime dependencies, and leaves the rendering framework up to you.
 
-- 🧩 **Truly framework-agnostic** — one core, first-class wrappers for **React** and **Vue**, and a clean API for **vanilla JS** or any other framework.
-- 🪄 **Smart field inference** — point it at your data and it auto-detects field types (string, number, boolean, enum, date) and the right operators for each.
-- 🔍 **Query builder built in** — every filter compiles to **Elasticsearch DSL, parameterized SQL, MongoDB filters, and GraphQL** — no manual serialization.
-- ⌨️ **Keyboard-first UX** — full arrow-key / Enter / Escape / Tab / Backspace navigation, just like the apps your users love.
-- ♿ **Accessible by default** — ARIA roles, screen-reader support, and managed focus out of the box.
-- 🧠 **Advanced boolean logic** — nested groups with `AND` / `OR` and parentheses for complex queries.
-- 🎨 **12 themes + full CSS-variable theming** — Material, Bootstrap, Tailwind, Ant Design, MUI, Chakra, and more.
-- 🌍 **16 languages** — built-in i18n with custom translation support.
-- 📦 **Zero runtime dependencies & fully typed** — tiny footprint, exported types for everything.
+- **Framework-agnostic.** One core library, with wrapper components for React and Vue and a plain API for vanilla JavaScript or any other framework.
+- **Field inference.** Point it at an array of objects and it detects each field's type (string, number, boolean, enum, date) and offers the operators that make sense for it.
+- **Query generation.** Every filter compiles to Elasticsearch DSL, parameterized SQL, a MongoDB filter, or a GraphQL query — no manual serialization.
+- **Keyboard-driven.** Full arrow-key, Enter, Escape, Tab, and Backspace navigation.
+- **Accessible.** ARIA roles, screen-reader labels, and managed focus by default.
+- **Boolean logic.** Nested groups with `AND` / `OR` for expressing complex conditions.
+- **Theming.** Twelve built-in themes and full customization through CSS variables.
+- **Internationalization.** Sixteen built-in languages, plus custom translation objects.
+- **Typed.** Written in TypeScript, with types exported for every public interface.
 
-> **Keywords:** filter UI · query builder · search component · faceted search · Elasticsearch query builder · SQL query builder · MongoDB filter · GraphQL filter · React filter component · Vue filter component · TypeScript filter library
-
-## ✨ Features
+## Features
 
 | | |
 |---|---|
-| **Framework agnostic** | React, Vue, vanilla JS, or any framework |
-| **Smart field inference** | Auto-detects field types from your data |
-| **Query generation** | Elasticsearch, SQL, MongoDB & GraphQL output |
-| **Advanced filtering** | Nested groups with `AND` / `OR` logic |
-| **Keyboard navigation** | Arrows, Enter, Escape, Tab, Backspace |
-| **Accessibility** | ARIA labels, screen readers, focus management |
-| **12 built-in themes** | Plus full custom theming via CSS variables |
-| **16 languages** | i18n with custom translation support |
-| **100% TypeScript** | Exported types for every interface |
-| **Zero dependencies** | No runtime deps, tree-shakeable ESM + UMD |
+| Framework agnostic | React, Vue, vanilla JS, or any framework |
+| Field inference | Detects field types from your data |
+| Query generation | Elasticsearch, SQL, MongoDB, and GraphQL output |
+| Advanced filtering | Nested groups with `AND` / `OR` logic |
+| Keyboard navigation | Arrows, Enter, Escape, Tab, Backspace |
+| Accessibility | ARIA labels, screen readers, focus management |
+| Themes | 12 built-in, plus custom theming via CSS variables |
+| Internationalization | 16 languages with custom translation support |
+| TypeScript | Types exported for every interface |
+| Zero dependencies | No runtime deps; tree-shakeable ESM and UMD builds |
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install querychips
 ```
 
-Import the styles once in your app:
+Import the stylesheet once in your application:
 
 ```js
 import 'querychips/styles';
 ```
 
-Or drop it in via CDN — no build step required:
+Or load it from a CDN with no build step:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/querychips@latest/dist/styles.css">
 <script src="https://unpkg.com/querychips@latest/dist/querychips.js"></script>
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Vanilla JavaScript
 
@@ -127,9 +125,9 @@ const handleChange = (filteredData, state) => {
 </script>
 ```
 
-> 💡 **Want to see it live?** Runnable React, Vue, vanilla, and Elasticsearch demos live in the [`examples/`](./examples) folder.
+Runnable React, Vue, vanilla, and Elasticsearch demos are in the [`examples/`](./examples) directory.
 
-## ⚙️ Configuration
+## Configuration
 
 ### Constructor Options
 
@@ -140,15 +138,15 @@ const handleChange = (filteredData, state) => {
 | `inferFields` | `boolean` | `true` | Auto-detect fields from data |
 | `enumThreshold` | `number` | `10` | Max unique values before a string field is treated as free-text instead of enum |
 | `autoApply` | `boolean` | `true` | Apply filters on every change |
-| `onChange` | `(filteredData, state) => void` | -- | Callback when filtered data changes |
-| `onQueryChange` | `(queries, state) => void` | -- | Callback when generated queries change |
+| `onChange` | `(filteredData, state) => void` | — | Called when filtered data changes |
+| `onQueryChange` | `(queries, state) => void` | — | Called when generated queries change |
 | `queryLanguages` | `QueryLanguage[]` | `['elasticsearch']` | Query formats to generate |
 | `theme` | `QueryChipsTheme` | `DEFAULT_THEME` | Theme configuration |
 | `language` | `string` | `'en'` | i18n language code |
-| `translation` | `Translation` | -- | Custom translation object (overrides `language`) |
-| `defaultQuery` | `Filter[] \| AdvancedFilterState` | -- | Pre-populated filters |
-| `container` | `HTMLElement` | -- | Mount target (alternative to calling `mount()`) |
-| `onError` | `(error) => void` | -- | Error callback |
+| `translation` | `Translation` | — | Custom translation object (overrides `language`) |
+| `defaultQuery` | `Filter[] \| AdvancedFilterState` | — | Pre-populated filters |
+| `container` | `HTMLElement` | — | Mount target (alternative to calling `mount()`) |
+| `onError` | `(error) => void` | — | Error callback |
 
 ### Field Definition
 
@@ -172,14 +170,13 @@ interface Field {
 | `enum` | `=` `!=` |
 | `date` | `=` `!=` `>` `<` `>=` `<=` `between` `not_between` |
 
-## 🔎 Filtering
+## Filtering
 
 ### Simple Filters
 
-The UI guides users through a step-by-step flow: **field** → **operator** → **value**. After completing a filter, a **logical operator** step (AND/OR) connects it to the next filter.
+The UI walks the user through a step-by-step flow: **field** → **operator** → **value**. Once a filter is complete, a **logical operator** step (AND/OR) connects it to the next one.
 
 ```ts
-// Programmatic filter
 queryChips.setFilters([
   { id: '1', field: 'department', operator: '=', value: 'Engineering' },
   { id: '2', field: 'salary', operator: '>=', value: 80000 },
@@ -188,7 +185,7 @@ queryChips.setFilters([
 
 ### Advanced Filters (Groups)
 
-Type `(` to open a group and `)` to close it. Groups allow nested boolean logic:
+Type `(` to open a group and `)` to close it. Groups support nested boolean logic:
 
 ```
 ( department = Engineering AND salary >= 80000 ) OR ( department = Design )
@@ -209,28 +206,28 @@ const queryChips = new QueryChips({
 });
 ```
 
-## 🗄️ Query Generation
+## Query Generation
 
-Turn user-built filters into production-ready queries for your backend. Enable output by setting `queryLanguages` and listening via `onQueryChange`:
+Set `queryLanguages` to enable output and listen through `onQueryChange`:
 
 ```ts
 const queryChips = new QueryChips({
   data,
   queryLanguages: ['elasticsearch', 'sql', 'mongodb', 'graphql'],
   onQueryChange: (queries, state) => {
-    // queries.elasticsearch -- Elasticsearch DSL (bool, match, term, range...)
-    // queries.sql           -- { query: string, parameters: unknown[] }
-    // queries.mongodb       -- { filter: object, options: object }
-    // queries.graphql       -- { query: string, variables: object }
+    // queries.elasticsearch — Elasticsearch DSL (bool, match, term, range...)
+    // queries.sql           — { query: string, parameters: unknown[] }
+    // queries.mongodb       — { filter: object, options: object }
+    // queries.graphql       — { query: string, variables: object }
   },
 });
 ```
 
-SQL output is **parameterized** (safe against injection), and every format mirrors the exact boolean structure the user built — including nested groups.
+SQL output is parameterized, and every format preserves the exact boolean structure the user built, including nested groups.
 
-## 🎨 Theming
+## Theming
 
-### Pre-built Themes
+### Built-in Themes
 
 ```ts
 import { DARK_THEME, MATERIAL_THEME } from 'querychips';
@@ -241,7 +238,7 @@ const queryChips = new QueryChips({
 });
 ```
 
-Available themes: `DEFAULT_THEME`, `LIGHT_THEME`, `DARK_THEME`, `MATERIAL_THEME`, `MATERIAL_DARK_THEME`, `BOOTSTRAP_THEME`, `TAILWIND_THEME`, `ANT_DESIGN_THEME`, `CHAKRA_THEME`, `MUI_THEME`, `BULMA_THEME`, `FOUNDATION_THEME`
+Available themes: `DEFAULT_THEME`, `LIGHT_THEME`, `DARK_THEME`, `MATERIAL_THEME`, `MATERIAL_DARK_THEME`, `BOOTSTRAP_THEME`, `TAILWIND_THEME`, `ANT_DESIGN_THEME`, `CHAKRA_THEME`, `MUI_THEME`, `BULMA_THEME`, `FOUNDATION_THEME`.
 
 ### Custom Themes (CSS Variables)
 
@@ -283,18 +280,18 @@ Theme modes: `'default'` (built-in styles), `'custom'` (CSS variables), `'none'`
 
 </details>
 
-## 🌍 Internationalization
+## Internationalization
 
 ### Built-in Languages
 
 ```ts
 const queryChips = new QueryChips({
   data,
-  language: 'fr', // French
+  language: 'fr',
 });
 ```
 
-Supported: `en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ru`, `ar`, `hi`, `tr`, `pl`, `sv`, `nl`
+Supported: `en`, `es`, `fr`, `de`, `it`, `pt`, `ja`, `ko`, `zh`, `ru`, `ar`, `hi`, `tr`, `pl`, `sv`, `nl`.
 
 ### Custom Translations
 
@@ -324,7 +321,7 @@ const queryChips = new QueryChips({
 });
 ```
 
-## 📚 API
+## API
 
 ### Methods
 
@@ -332,7 +329,7 @@ const queryChips = new QueryChips({
 |--------|-------------|
 | `mount(element: HTMLElement)` | Mount the component to a DOM element |
 | `destroy()` | Remove the instance and clean up all listeners |
-| `getState(): QueryChipsState` | Get a copy of the current state |
+| `getState(): QueryChipsState` | Return a copy of the current state |
 | `setFilters(filters: Filter[])` | Set filters programmatically |
 | `clearFilters()` | Remove all filters and groups |
 | `updateConfig(config: Partial<QueryChipsConfig>)` | Update configuration (data, fields, theme, etc.) |
@@ -355,7 +352,7 @@ onQueryChange?: (queries: {
 }, state: QueryChipsState) => void;
 ```
 
-## 🟦 TypeScript
+## TypeScript
 
 All types are exported from the main package:
 
@@ -379,12 +376,14 @@ import type {
 } from 'querychips';
 ```
 
-## 🤝 Contributing
+## Browser Support
 
-Contributions, issues, and feature requests are welcome! Check out the [contributing guide](./CONTRIBUTING.md) and the [open issues](https://github.com/nvana/querychips/issues).
+Works in all modern browsers (Chrome, Firefox, Safari, Edge). Requires `ResizeObserver` and `IntersectionObserver`, available in every current release.
 
-If QueryChips saves you time, please consider giving it a ⭐ on [GitHub](https://github.com/nvana/querychips) — it really helps others discover the project.
+## Contributing
 
-## 📄 License
+Issues and pull requests are welcome. See the [contributing guide](./CONTRIBUTING.md) for development setup and conventions, and the [open issues](https://github.com/nvana/querychips/issues) for where to start.
+
+## License
 
 [MIT](./LICENSE) © [nvana](https://github.com/nvana)
